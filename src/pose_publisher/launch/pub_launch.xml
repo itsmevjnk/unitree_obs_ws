@@ -1,0 +1,14 @@
+<launch>
+    <arg name="name" default="robot" />
+    <arg name="map_frame" default="map" />
+    <arg name="robot_frame" default="base_link" />
+
+    <node pkg="pose_publisher" exec="pub_node" name="pose_pub_$(var name)">
+        <param name="map_frame" value="$(var map_frame)" />
+        <param name="robot_frame" value="$(var robot_frame)" />
+        <param name="out_map_frame" value="$(var map_frame)" />
+        <param name="out_robot_frame" value="$(var name)" />
+
+        <remap from="pose" to="/robot_poses" />
+    </node>
+</launch>

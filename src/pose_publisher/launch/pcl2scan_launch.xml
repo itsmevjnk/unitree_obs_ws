@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="pointcloud_to_laserscan" exec="pointcloud_to_laserscan_node" name="pcl2scan">
+        <remap from="cloud_in" to="/obstacle_cloud" />
+        <remap from="scan" to="/scan_obs" />
+
+        <param name="target_frame" value="base_link" />
+        <param name="range_max" value="5.0" />
+        <param name="use_inf" value="false" />
+    </node>
+</launch>
