@@ -1,0 +1,21 @@
+<launch>
+    <node pkg="timestamp_fixer" exec="scan_fixer" name="scan_fixer">
+        <remap from="scan_in" to="/scan_raw"/>
+        <remap from="scan_out" to="/scan"/>
+    </node>
+    <node pkg="timestamp_fixer" exec="imu_fixer" name="imu_fixer">
+        <remap from="imu_in" to="/imu_raw"/>
+        <remap from="imu_out" to="/imu"/>
+    </node>
+    <node pkg="timestamp_fixer" exec="odom_fixer" name="odom_fixer">
+        <remap from="odom_in" to="/odom_raw"/>
+        <remap from="odom_out" to="/odom"/>
+    </node>
+    <node pkg="odom_tf_publisher" exec="pub_node" name="pub_node">
+        <remap from="odom" to="/odom"/>
+        <!-- <remap from="tf" to="/tf"/> -->
+    </node>
+
+    <node pkg="tf2_ros" exec="static_transform_publisher" name="bl_to_bf" args="0 0 0 0 0 0 base_link base_footprint" />
+    <node pkg="tf2_ros" exec="static_transform_publisher" name="bl_to_laser" args="0 0 0 0 0 0 base_link laser" />
+</launch>
