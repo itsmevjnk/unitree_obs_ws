@@ -1,0 +1,9 @@
+<launch>
+    <include file="$(find-pkg-share unitree_bringup)/launch/unitree_launch.xml" />
+
+    <arg name="map" />
+    <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
+        <arg name="map" value="$(var map)" />
+        <arg name="params_file" value="$(find-pkg-share unitree_bringup)/nav2_params.yaml" />
+    </include>
+</launch>
