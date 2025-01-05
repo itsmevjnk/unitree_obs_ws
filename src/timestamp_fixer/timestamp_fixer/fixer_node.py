@@ -19,6 +19,6 @@ class FixerNode(Node):
         return datetime.fromtimestamp(stamp.sec + stamp.nanosec / 1e9)
 
     def msg_cb(self, msg):
-        self.get_logger().info(f'new message at {self.stamp_to_dt(msg.header.stamp)}')
+        self.get_logger().debug(f'new message at {self.stamp_to_dt(msg.header.stamp)}')
         msg.header.stamp = self.get_clock().now().to_msg() # set correct timestamp
         self.pub.publish(msg)

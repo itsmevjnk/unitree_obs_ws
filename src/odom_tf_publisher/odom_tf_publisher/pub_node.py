@@ -30,7 +30,7 @@ class OdomTFPublisher(Node):
         t.transform.translation.z = data.pose.pose.position.z # normally this would be 0
         t.transform.rotation = data.pose.pose.orientation
 
-        self.get_logger().info(f'sending {self.odom_frame} -> {self.robot_frame} transform')
+        self.get_logger().debug(f'sending {self.odom_frame} -> {self.robot_frame} transform')
         self.tf_broadcaster.sendTransform(t)
 
 def main():
