@@ -1,0 +1,9 @@
+<launch>
+    <arg name="master_uri" default="$(env ROS_MASTER_URI 'http://127.0.0.1:11311')"/>
+    <arg name="ros_ip" default="$(env ROS_IP '')"/>
+
+    <executable cmd="$(find-pkg-share ros1_bridge_bringup)/scripts/parameter_bridge.sh" output="screen">
+        <env name="ROS_MASTER_URI" value="$(var master_uri)"/>
+        <env name="ROS_IP" value="$(var ros_ip)"/>
+    </executable>
+</launch>

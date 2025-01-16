@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>unitree_bringup</name>
+  <name>ros1_bridge_bringup</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ngtv0404@gmail.com">itsmevjnk</maintainer>
+  <maintainer email="ngtv0404@gmail.com">hotdog</maintainer>
   <license>TODO: License declaration</license>
 
   <test_depend>ament_copyright</test_depend>
@@ -12,12 +12,7 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
-  <exec_depend>timestamp_fixer</exec_depend>
-  <exec_depend>odom_tf_publisher</exec_depend>
-  <exec_depend>tf2</exec_depend>
-  <exec_depend>unitree_ros</exec_depend>
-  <exec_depend>robot_localization</exec_depend>
-  <exec_depend>ros1_bridge_bringup</exec_depend>
+  <exec_depend>ros1_bridge</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>

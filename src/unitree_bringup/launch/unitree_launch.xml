@@ -2,15 +2,13 @@
     <arg name="rviz" default="true"/>
 
     <arg name="fuse_imu" default="false"/>
+    <arg name="bridge" default="true"/>
 
     <include file="$(find-pkg-share unitree_bringup)/launch/driver_launch.xml">
         <arg name="fuse_imu" value="$(var fuse_imu)"/>
     </include>
 
-    <node pkg="timestamp_fixer" exec="scan_fixer" name="scan_fixer">
-        <remap from="scan_in" to="/scan_raw"/>
-        <remap from="scan_out" to="/scan"/>
-    </node>
+    <include file="$(find-pkg-share unitree_bringup)/launch/bridge_launch.xml" if="$(var bridge)"/>
 
     <node pkg="robot_localization" exec="ekf_node" name="ekf_filter" if="$(var fuse_imu)">
         <param from="$(find-pkg-share unitree_bringup)/config/ekf_config.yml"/>

@@ -1,0 +1,10 @@
+<launch>
+    <include file="$(find-pkg-share ros1_bridge_bringup)/launch/bridge_launch.xml">
+        <arg name="master_uri" value="http://192.168.123.161:11311"/>
+    </include>
+    
+    <node pkg="timestamp_fixer" exec="scan_fixer" name="scan_fixer">
+        <remap from="scan_in" to="/scan_raw"/>
+        <remap from="scan_out" to="/scan"/>
+    </node>
+</launch>
