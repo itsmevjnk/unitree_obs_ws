@@ -1,6 +1,0 @@
-<launch>
-    <node pkg="clock_publisher" exec="pub_node" name="$(anon pub_node)">
-        <remap from="scan" to="/scan" />
-        <remap from="clock" to="/clock" />
-    </node>
-</launch>
