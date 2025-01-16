@@ -1,0 +1,22 @@
+<launch>
+    <arg name="fuse_imu" default="false"/>
+    <arg name="robot_ip" default="192.168.12.1"/>
+
+    <node pkg="unitree_ros" exec="unitree_driver" name="unitree_driver_nofuse" unless="$(var fuse_imu)">
+        <param name="robot_ip" value="$(var robot_ip)"/>
+        <param name="low_batt_shutdown_threshold" value="0"/>
+
+        <param name="odom_topic_name" value="/odom"/> <!-- default is /odom -->
+        <param name="imu_topic_name" value="/imu"/>
+    </node>
+
+    <node pkg="unitree_ros" exec="unitree_driver" name="unitree_driver_fuse" if="$(var fuse_imu)">
+        <param name="robot_ip" value="$(var robot_ip)"/>
+        <param name="low_batt_shutdown_threshold" value="0"/>
+
+        <param name="odom_topic_name" value="/odom_raw"/> <!-- default is /odom -->
+        <param name="imu_topic_name" value="/imu"/>
+
+        <remap from="/tf" to="/tf/unitree"/> <!-- if we fuse IMU then robot_localization will handle this part -->
+    </node>
+</launch>

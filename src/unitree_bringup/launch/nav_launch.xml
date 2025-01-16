@@ -1,9 +1,15 @@
 <launch>
-    <include file="$(find-pkg-share unitree_bringup)/launch/unitree_launch.xml" />
+    <arg name="fuse_imu" default="false"/>
+    <arg name="rviz" default="true"/>
 
-    <arg name="map" />
+    <include file="$(find-pkg-share unitree_bringup)/launch/unitree_launch.xml">
+        <arg name="fuse_imu" value="$(var fuse_imu)"/>
+        <arg name="rviz" value="$(var rviz)"/>
+    </include>
+
+    <arg name="map" default="$(find-pkg-share unitree_bringup)/map/dognav_map_v2.yaml" />
     <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
         <arg name="map" value="$(var map)" />
-        <arg name="params_file" value="$(find-pkg-share unitree_bringup)/nav2_params.yaml" />
+        <arg name="params_file" value="$(find-pkg-share unitree_bringup)/config/nav2_config.yml" />
     </include>
 </launch>
