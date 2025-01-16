@@ -1,0 +1,10 @@
+<launch>
+    <arg name="rviz" default="true"/>
+
+    <node pkg="pose_publisher" exec="tf_node" name="pose_to_tf">
+        <remap from="pose" to="/robot_poses" />
+        <remap from="pose_cloud" to="/obstacle_cloud" />
+    </node>
+
+    <node pkg="rviz2" exec="rviz2" name="tf_rviz" args="-d $(find-pkg-share pose_publisher)/config/tf_viz.rviz" />
+</launch>
