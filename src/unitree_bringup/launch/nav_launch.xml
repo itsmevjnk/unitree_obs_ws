@@ -16,15 +16,26 @@
         <arg name="params_file" value="$(find-pkg-share unitree_bringup)/config/nav2_config.yml" />
     </include>
 
-    <arg name="name" default="go1"/>
-
-    <arg name="publish_pose" default="true"/>
-    <include file="$(find-pkg-share pose_publisher)/launch/pub_launch.xml" if="$(var publish_pose)">
-        <arg name="name" value="$(var name)"/>
-    </include>
-
+    <arg name="publish_pose" default="true"/> <!-- prerequisite for avoid_pose and bridge_pose -->
+    
+    <arg name="pose_name" default="go1"/>
+    <arg name="bridge_pose" default="true"/>
+    <arg name="pose_domain" default="4"/>
     <arg name="avoid_pose" default="false"/>
-    <include file="$(find-pkg-share pose_publisher)/launch/sub_launch.xml" if="$(var avoid_pose)">
-        <arg name="name" value="$(var name)"/>
-    </include>
+
+    <group if="$(var publish_pose)">
+        <include file="$(find-pkg-share pose_publisher)/launch/pub_launch.xml">
+            <arg name="name" value="$(var pose_name)"/>
+        </include>
+
+        <include file="$(find-pkg-share domain_bridge)/launch/domain_bridge.launch.xml" if="$(var bridge_pose)">
+            <arg name="config" value="$(find-pkg-share unitree_bringup)/config/pose_bridge_config.yml"/>
+            <arg name="from_domain" value="$(env ROS_DOMAIN_ID 0)" />
+            <arg name="to_domain" value="$(var pose_domain)" />
+        </include>
+
+        <include file="$(find-pkg-share pose_publisher)/launch/sub_launch.xml" if="$(var avoid_pose)">
+            <arg name="name" value="$(var pose_name)"/>
+        </include>
+    </group>
 </launch>
