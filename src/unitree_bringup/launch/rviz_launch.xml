@@ -1,3 +1,6 @@
 <launch>
-    <node pkg="rviz2" exec="rviz2" name="rviz" args="-d $(find-pkg-share unitree_bringup)/rviz/unitree.rviz"/>
+    <arg name="navigation" default="true"/>
+
+    <node pkg="rviz2" exec="rviz2" name="rviz" args="-d $(find-pkg-share unitree_bringup)/rviz/navigation.rviz" if="$(var navigation)"/>
+    <node pkg="rviz2" exec="rviz2" name="rviz" args="-d $(find-pkg-share unitree_bringup)/rviz/odometry.rviz" unless="$(var navigation)"/>
 </launch>

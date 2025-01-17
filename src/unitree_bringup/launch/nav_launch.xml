@@ -4,7 +4,11 @@
 
     <include file="$(find-pkg-share unitree_bringup)/launch/unitree_launch.xml">
         <arg name="fuse_imu" value="$(var fuse_imu)"/>
-        <arg name="rviz" value="$(var rviz)"/>
+        <arg name="rviz" value="false"/>
+    </include>
+
+    <include file="$(find-pkg-share unitree_bringup)/launch/rviz_launch.xml" if="$(var rviz)">
+        <arg name="navigation" value="true"/>
     </include>
 
     <arg name="map" default="$(find-pkg-share unitree_bringup)/map/dognav_map_v2.yaml" />

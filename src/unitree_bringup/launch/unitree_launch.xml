@@ -15,7 +15,9 @@
         <remap from="odometry/filtered" to="/odom"/>
     </node>
 
-    <include file="$(find-pkg-share unitree_bringup)/launch/rviz_launch.xml" if="$(var rviz)"/>
+    <include file="$(find-pkg-share unitree_bringup)/launch/rviz_launch.xml" if="$(var rviz)">
+        <arg name="navigation" value="false"/>
+    </include>
 
     <node pkg="tf2_ros" exec="static_transform_publisher" name="bl_to_bf" args="0 0 0 0 0 0 base_link base_footprint" />
     <node pkg="tf2_ros" exec="static_transform_publisher" name="bl_to_laser" args="0 0 0 0 0 0 base_link laser" />
