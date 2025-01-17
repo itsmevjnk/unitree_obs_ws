@@ -1,6 +1,0 @@
-<launch>
-    <node pkg="laserscan_fixer" exec="fixer_node" name="fix_lidar">
-        <remap from="scan_raw" to="/slamware_ros_sdk_server_node/scan"/>
-        <remap from="scan" to="/scan"/>
-    </node>
-</launch>
