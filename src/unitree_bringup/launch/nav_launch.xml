@@ -1,12 +1,11 @@
 <launch>
     <arg name="fuse_imu" default="false"/>
-    <arg name="rviz" default="true"/>
-
     <include file="$(find-pkg-share unitree_bringup)/launch/unitree_launch.xml">
         <arg name="fuse_imu" value="$(var fuse_imu)"/>
         <arg name="rviz" value="false"/>
     </include>
 
+    <arg name="rviz" default="false"/>
     <include file="$(find-pkg-share unitree_bringup)/launch/rviz_launch.xml" if="$(var rviz)">
         <arg name="navigation" value="true"/>
     </include>
@@ -15,5 +14,17 @@
     <include file="$(find-pkg-share nav2_bringup)/launch/bringup_launch.py">
         <arg name="map" value="$(var map)" />
         <arg name="params_file" value="$(find-pkg-share unitree_bringup)/config/nav2_config.yml" />
+    </include>
+
+    <arg name="name" default="go1"/>
+
+    <arg name="publish_pose" default="true"/>
+    <include file="$(find-pkg-share pose_publisher)/launch/pub_launch.xml" if="$(var publish_pose)">
+        <arg name="name" value="$(var name)"/>
+    </include>
+
+    <arg name="avoid_pose" default="false"/>
+    <include file="$(find-pkg-share pose_publisher)/launch/sub_launch.xml" if="$(var avoid_pose)">
+        <arg name="name" value="$(var name)"/>
     </include>
 </launch>
