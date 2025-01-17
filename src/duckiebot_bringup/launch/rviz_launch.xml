@@ -1,0 +1,6 @@
+<launch>
+    <!-- <arg name="navigation" default="true"/> -->
+
+    <!-- <node pkg="rviz2" exec="rviz2" name="rviz" args="-d $(find-pkg-share duckiebot_bringup)/rviz/navigation.rviz" if="$(var navigation)"/> -->
+    <node pkg="rviz2" exec="rviz2" name="rviz" args="-d $(find-pkg-share duckiebot_bringup)/rviz/odometry.rviz"/>
+</launch>

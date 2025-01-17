@@ -1,0 +1,14 @@
+<launch>
+    <arg name="name"/>
+
+    <include file="$(find-pkg-share duckiebot_bringup)/launch/bridge_launch.xml">
+        <arg name="name" value="$(var name)"/>
+    </include>
+
+    <node name="odom_tf" pkg="odom_tf_publisher" exec="pub_node" output="screen">
+        <remap from="odom" to="/odom"/>
+    </node>
+
+    <arg name="rviz" default="true"/>
+    <include file="$(find-pkg-share duckiebot_bringup)/launch/rviz_launch.xml" if="$(var rviz)"/>
+</launch>

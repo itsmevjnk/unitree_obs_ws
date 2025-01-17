@@ -1,0 +1,5 @@
+<launch>
+    <arg name="name"/>
+
+    <executable cmd="$(find-pkg-share duckiebot_bringup)/scripts/ros_bridge.sh $(var name)" output="screen"/>
+</launch>
