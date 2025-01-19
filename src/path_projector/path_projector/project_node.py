@@ -90,7 +90,7 @@ class ProjectNode(Node):
                 else: poses.pop() # remove last pose (so we can store this in instead)
             poses.append((i, new_x, new_y, new_yaw))
         
-        self.get_logger().info(f'created path with {len(poses)} point(s): {poses[0]} -> {poses[-1]}')
+        # self.get_logger().info(f'created path with {len(poses)} point(s): {poses[0]} -> {poses[-1]}')
         return poses
     
     def project(self, x: float, y: float, yaw: float, vx: float, vy: float, omega: float, frame_id: str = '', msg_time: Time | None = None):
@@ -98,11 +98,11 @@ class ProjectNode(Node):
 
         msg = Path()
         if msg_time is None: msg_time = self.get_clock().now()
-        # msg.header.stamp = msg_time.to_msg()
+        msg.header.stamp = msg_time.to_msg()
         msg.header.frame_id = frame_id
         for (i, x, y, yaw) in poses:
             p = PoseStamped()
-            # p.header.stamp = (msg_time + Duration(seconds=i*self.dt)).to_msg()
+            p.header.stamp = (msg_time + Duration(seconds=i*self.dt)).to_msg()
             p.header.frame_id = frame_id
             p.pose.position.x = x; p.pose.position.y = y
             p.pose.orientation.x, p.pose.orientation.y, p.pose.orientation.z, p.pose.orientation.w = Rotation.from_euler('xyz', [0, 0, yaw]).as_quat().tolist()
