@@ -32,13 +32,14 @@ class PoseState:
             rvect: np.ndarray = radius * np.array([[0, -1], [1, 0]]).dot(self.v / v_mag) # radius vector (90deg CCW, multiplied by signed radius)
             self.centre = self.pos + rvect
     
-    def next(self, dt: float, inplace: bool = True, nomod: bool = False) -> tuple[float, float, float, PoseState]: # x, y, yaw, object containing next state (or this object if inplace=True). if nomod=True, inplace will be forced to True, and this method will not change the object.
+    def next(self, dt: float, inplace: bool = True, nomod: bool = False) -> tuple[float, float, float, object]: # x, y, yaw, object containing next state (or this object if inplace=True). if nomod=True, inplace will be forced to True, and this method will not change the object.
         if nomod: inplace = True
         # output = self if inplace else PoseState(self.x, self.y, self.yaw, self.vx, self.vy, self.omega, self.max_radius)
 
         if self.linear: # straight motion - advance x and y only
             new_pos = self.pos + self.v * dt
             new_v = self.v
+            new_yaw = self.yaw # no heading change
         else: # follow circular motion
             d_yaw = self.omega * dt; new_yaw = self.yaw + d_yaw
             
@@ -68,10 +69,10 @@ class ProjectNode(Node):
     def __init__(self, node_name):
         super().__init__(node_name + '_path_projector')
 
-        self.dt = self.declare_parameter('dt', 0.1, 'time step for path projection (in seconds)').get_parameter_value().double_value
-        self.steps = self.declare_parameter('steps', 50, 'number of projection steps').get_parameter_value().integer_value
-        self.min_distance = self.declare_parameter('min_distance', 0.1, 'minimum distance between points (in metres)').get_parameter_value().double_value
-        self.max_radius = self.declare_parameter('max_radius', 10.0, 'maximum radius for circular motion (in metres)').get_parameter_value().double_value
+        self.dt = self.declare_parameter('dt', 0.1).get_parameter_value().double_value # time step for path projection (in seconds)
+        self.steps = self.declare_parameter('steps', 50).get_parameter_value().integer_value # number of projection steps
+        self.min_distance = self.declare_parameter('min_distance', 0.1).get_parameter_value().double_value # minimum distance between points (in metres)
+        self.max_radius = self.declare_parameter('max_radius', 10.0).get_parameter_value().double_value # maximum radius for circular motion (in metres)
 
         self.pub = self.create_publisher(Path, 'path', qos.qos_profile_system_default)
     
@@ -81,10 +82,10 @@ class ProjectNode(Node):
         pose = PoseState(x, y, yaw, vx, vy, omega, self.max_radius)
         
         for i in range(1, self.steps + 1):
-            last_x, last_y, _ = poses[-1]
+            _, last_x, last_y, _ = poses[-1]
             new_x, new_y, new_yaw, _ = pose.next(i * self.dt, nomod=True) # compute next step
             pos_diff = ((new_x - last_x)**2 + (new_y - last_y)**2)**0.5 # position difference
-            if np.sqrt(pos_diff.dot(pos_diff)) < self.min_distance: # less than difference
+            if pos_diff < self.min_distance: # less than difference
                 if i < self.steps: continue # try next timestep
                 else: poses.pop() # remove last pose (so we can store this in instead)
             poses.append((i, new_x, new_y, new_yaw))
@@ -97,13 +98,14 @@ class ProjectNode(Node):
 
         msg = Path()
         if msg_time is None: msg_time = self.get_clock().now()
-        msg.header.stamp = msg_time.to_msg()
+        # msg.header.stamp = msg_time.to_msg()
         msg.header.frame_id = frame_id
         for (i, x, y, yaw) in poses:
             p = PoseStamped()
-            p.header.stamp = (msg_time + Duration(seconds=i*self.dt))
+            # p.header.stamp = (msg_time + Duration(seconds=i*self.dt)).to_msg()
             p.header.frame_id = frame_id
             p.pose.position.x = x; p.pose.position.y = y
-            p.pose.orientation.x, p.pose.orientation.y, p.pose.orientation.z, p.pose.orientation.w = Rotation.from_euler('sxyz', [0, 0, yaw]).as_quat().tolist()
+            p.pose.orientation.x, p.pose.orientation.y, p.pose.orientation.z, p.pose.orientation.w = Rotation.from_euler('xyz', [0, 0, yaw]).as_quat().tolist()
+            msg.poses.append(p)
         
         self.pub.publish(msg)

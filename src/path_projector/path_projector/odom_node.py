@@ -18,7 +18,7 @@ class OdomProjectNode(ProjectNode):
         pose = data.pose.pose
         _, _, yaw = Rotation.from_quat([
             pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w
-        ]).as_euler('sxyz')
+        ]).as_euler('xyz')
         twist = data.twist.twist
         self.project(
             pose.position.x, pose.position.y, yaw,
