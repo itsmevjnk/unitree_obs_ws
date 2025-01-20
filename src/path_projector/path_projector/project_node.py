@@ -12,7 +12,7 @@ from scipy.spatial.transform import Rotation
 
 
 class PoseState:
-    def __init__(self, x: float = 0, y: float = 0, yaw: float = 0, vx: float = 0, vy: float = 0, omega: float = 0, max_radius: float = 10.0):
+    def __init__(self, x: float = 0, y: float = 0, yaw: float = 0, vx: float = 0, vy: float = 0, omega: float = 0, max_radius: float = 10.0, epsilon: float = 1e-6):
         self.pos = np.array([x, y], dtype=np.float64)
         self.yaw = np.float64(yaw)
 
@@ -22,9 +22,12 @@ class PoseState:
         self.max_radius = max_radius # for creating new objects
 
         v_mag: np.float64 = np.sqrt(self.v.dot(self.v)) # velocity magnitude
-        radius = v_mag / self.omega
-        r_mag: np.float64 = np.abs(radius) # radius magnitude
-        self.linear = r_mag > max_radius # set if this is a linear (straight) motion
+        if np.abs(v_mag) < epsilon:
+            self.linear = True # robot is standing still
+        else:           
+            radius = v_mag / self.omega
+            r_mag: np.float64 = np.abs(radius) # radius magnitude
+            self.linear = r_mag > max_radius # set if this is a linear (straight) motion
 
         if self.linear:
             self.centre = None
