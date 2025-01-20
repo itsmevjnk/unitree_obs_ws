@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'odom_node = path_projector.odom_node:main'
+            'odom_node = path_projector.odom_node:main',
+            'twist_node = path_projector.twist_node:main'
         ],
     },
 )
