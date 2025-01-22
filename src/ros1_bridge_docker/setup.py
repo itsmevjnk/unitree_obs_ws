@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'ros1_bridge_bringup'
+package_name = 'ros1_bridge_docker'
 
 setup(
     name=package_name,

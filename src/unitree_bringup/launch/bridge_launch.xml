@@ -1,5 +1,5 @@
 <launch>
-    <include file="$(find-pkg-share ros1_bridge_bringup)/launch/bridge_launch.xml">
+    <include file="$(find-pkg-share ros1_bridge_docker)/launch/bridge_launch.xml">
         <arg name="master_uri" value="http://192.168.123.161:11311"/>
     </include>
     
