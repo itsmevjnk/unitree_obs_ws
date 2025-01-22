@@ -7,3 +7,6 @@
 [submodule "src/path_projector"]
 	path = src/path_projector
 	url = https://github.com/itsmevjnk/ros2_path_projector.git
+[submodule "src/nav2_goal_cancel"]
+	path = src/nav2_goal_cancel
+	url = https://github.com/itsmevjnk/nav2_goal_cancel.git
