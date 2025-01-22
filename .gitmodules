@@ -4,3 +4,6 @@
 [submodule "src/timestamp_fixer"]
 	path = src/timestamp_fixer
 	url = https://github.com/itsmevjnk/timestamp_fixer.git
+[submodule "src/path_projector"]
+	path = src/path_projector
+	url = https://github.com/itsmevjnk/ros2_path_projector.git
