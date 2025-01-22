@@ -1,3 +1,6 @@
 [submodule "src/odom_tf_publisher"]
 	path = src/odom_tf_publisher
 	url = https://github.com/itsmevjnk/odom_tf_publisher.git
+[submodule "src/timestamp_fixer"]
+	path = src/timestamp_fixer
+	url = https://github.com/itsmevjnk/timestamp_fixer.git
