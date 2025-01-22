@@ -13,3 +13,6 @@
 [submodule "src/pose_publisher"]
 	path = src/pose_publisher
 	url = https://github.com/itsmevjnk/ros2_pose_publisher.git
+[submodule "src/ros1_bridge_bringup"]
+	path = src/ros1_bridge_bringup
+	url = https://github.com/itsmevjnk/ros1_bridge_bringup.git
